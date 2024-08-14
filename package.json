@@ -1,0 +1,19 @@
+{
+  "name": "open-ai-poc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "run": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.4",
+    "dotenv": "^16.4.5",
+    "lodash": "^4.17.21",
+    "openai": "^4.55.7"
+  }
+}
