@@ -5,8 +5,8 @@ import Knex from "knex";
 dotenv.config();
 
 export const knex = Knex({
-    client: 'pg',
-    connection: process.env.DATABASE_URL,
+  client: "pg",
+  connection: process.env.DATABASE_URL,
 });
 
-export const openai = new OpenAI(process.env.OPENAI_API_KEY);
+export const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
