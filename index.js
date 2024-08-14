@@ -1,19 +1,18 @@
-import OpenAI from "openai";
-import dotenv from "dotenv";
-import Knex from "knex";
-
-dotenv.config();
-
-const knex = Knex({
-    client: 'pg',
-    connection: process.env.DATABASE_URL,
-});
-
-const client = new OpenAI(process.env.OPENAI_API_KEY);
+import { batchResponses } from "./functions/batch-responses.js";
+import { uploadThemes } from "./functions/upload-themes.js";
+import { knex } from "./connector.js";
 
 const main = async () => {
-    const responses = await knex('responses').select('*');
-    console.log(responses);
+    const cmd = process.argv[2];
+    switch (cmd) {
+        case "batchResponses":
+            return await batchResponses();
+        case "uploadThemes":
+            return await uploadThemes();
+        default:
+            process.exitCode = 1;
+            console.log("Unknown command:", cmd);
+    }
 };
 
 const cleanup = async () => {
