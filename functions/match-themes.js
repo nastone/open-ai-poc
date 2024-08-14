@@ -1,4 +1,4 @@
-import { openai, knex } from "../connector.js";
+import { getEmbedding, knex } from "../connector.js";
 
 export const matchThemes = async (text) => {
     if (!text) throw new Error('Must provide input text');
@@ -15,11 +15,3 @@ export const matchThemes = async (text) => {
         .limit(5);
     console.table(matches);
 };
-
-async function getEmbedding(text) {
-    const response = await openai.embeddings.create({
-        model: "text-embedding-3-large",
-        input: text,
-    });
-    return JSON.stringify(response.data[0].embedding);
-}

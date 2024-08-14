@@ -26,6 +26,9 @@ importers:
       pg:
         specifier: ^8.12.0
         version: 8.12.0
+      tiktoken:
+        specifier: ^1.0.15
+        version: 1.0.15
 
 packages:
 
@@ -284,6 +287,9 @@ packages:
     resolution: {integrity: sha512-51LAVKUSZSVfI05vjPESNc5vwqqZpbXCsU+/+wxlOrUjk2SnFTt97v9ZgQrD4YmxYW1Px6w2KjaDitCfkvgxMQ==}
     engines: {node: '>=8.0.0'}
 
+  tiktoken@1.0.15:
+    resolution: {integrity: sha512-sCsrq/vMWUSEW29CJLNmPvWxlVp7yh2tlkAjpJltIKqp5CKf98ZNpdeHRmAlPVFlGEbswDc6SmI8vz64W/qErw==}
+
   tildify@2.0.0:
     resolution: {integrity: sha512-Cc+OraorugtXNfs50hU9KS369rFXCfgGLpfCfvlc+Ud5u6VWmUQsOAa9HbTvheQdYnrdJqqv1e5oIqXppMYnSw==}
     engines: {node: '>=8'}
@@ -513,6 +519,8 @@ snapshots:
   supports-preserve-symlinks-flag@1.0.0: {}
 
   tarn@3.0.2: {}
+
+  tiktoken@1.0.15: {}
 
   tildify@2.0.0: {}
 
