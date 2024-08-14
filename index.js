@@ -1,5 +1,6 @@
 import { batchResponses } from "./functions/batch-responses.js";
 import { embedThemes } from "./functions/embed-themes.js";
+import { matchThemes } from "./functions/match-themes.js";
 import { knex } from "./connector.js";
 
 const main = async () => {
@@ -9,6 +10,8 @@ const main = async () => {
             return await batchResponses();
         case "embedThemes":
             return await embedThemes();
+        case "matchThemes":
+            return await matchThemes(process.argv[3]);
         default:
             process.exitCode = 1;
             console.log("Unknown command:", cmd);
