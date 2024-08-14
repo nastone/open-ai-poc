@@ -1,5 +1,5 @@
 import { batchResponses } from "./functions/batch-responses.js";
-import { uploadThemes } from "./functions/upload-themes.js";
+import { embedThemes } from "./functions/embed-themes.js";
 import { knex } from "./connector.js";
 
 const main = async () => {
@@ -7,8 +7,8 @@ const main = async () => {
     switch (cmd) {
         case "batchResponses":
             return await batchResponses();
-        case "uploadThemes":
-            return await uploadThemes();
+        case "embedThemes":
+            return await embedThemes();
         default:
             process.exitCode = 1;
             console.log("Unknown command:", cmd);
