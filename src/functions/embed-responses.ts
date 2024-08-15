@@ -1,11 +1,20 @@
 import { knex, openai } from "../connector.js";
 import { encoding_for_model } from "tiktoken";
 
-function createEmbeddingBatches(objects, maxTokens = 8191 * 0.8) {
+export interface Response {
+  id: number;
+  text: string;
+  embedding?: string | number[];
+}
+
+function createEmbeddingBatches(
+  objects: Array<Response>,
+  maxTokens = 8191 * 0.8
+) {
   const encoder = encoding_for_model("text-embedding-ada-002");
 
-  const batches = [];
-  let currentBatch = [];
+  const batches: Array<Array<Response>> = [];
+  let currentBatch: Array<Response> = [];
   let currentBatchTokens = 0;
 
   for (const obj of objects) {
@@ -36,7 +45,14 @@ function createEmbeddingBatches(objects, maxTokens = 8191 * 0.8) {
 }
 
 export const embedResponses = async () => {
-  const responses = await knex("responses").select("*");
+  const responses = await knex<Response>("responses")
+    .select("*")
+    .whereNull("embedding");
+
+  if (responses.length === 0) {
+    console.log("No responses to embed.");
+    return;
+  }
   const batches = createEmbeddingBatches(responses);
 
   let processedBatchCount = 0;
