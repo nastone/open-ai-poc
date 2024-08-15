@@ -1,5 +1,4 @@
 import { knex, openai } from "../connector.js";
-
 export const embedThemes = async () => {
     let embedCount = 0;
     for await (const batch of walkThemes()) {
@@ -15,22 +14,21 @@ export const embedThemes = async () => {
         embedCount += embedded.length;
     }
     console.log(`Successfully saved embeddings for ${embedCount} themes`);
-}
-
-async function *walkThemes(batchSize = 10) {
+};
+async function* walkThemes(batchSize = 10) {
     let lastId = 0;
     while (true) {
         const batch = await knex("categories")
             .select("*")
-            .where('id', '>', lastId)
-            .orderBy('id', 'asc')
+            .where("id", ">", lastId)
+            .orderBy("id", "asc")
             .limit(batchSize);
-        if (batch.length === 0) break;
+        if (batch.length === 0)
+            break;
         yield batch;
-        lastId = batch[batch.length-1].id;
+        lastId = batch[batch.length - 1].id;
     }
 }
-
 async function batchEmbedThemes(batch) {
     const embedded = [];
     for (const theme of batch) {
