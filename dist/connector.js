@@ -14,3 +14,10 @@ export async function getEmbedding(text) {
     });
     return JSON.stringify(response.data[0].embedding);
 }
+export async function getEmbeddings(inputs) {
+    const response = await openai.embeddings.create({
+        model: "text-embedding-3-large",
+        input: inputs,
+    });
+    return response.data.map(d => JSON.stringify(d.embedding));
+}

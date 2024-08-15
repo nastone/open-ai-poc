@@ -1,13 +1,30 @@
 import { getEmbedding, knex } from "../connector.js";
 
-export const matchThemesWithSentiment = async (text: string) => {
-  if (!text) throw new Error('Must provide input text');
-    const embedding = await getEmbedding(text);
+const findEmbedding = async (textOrEmbedding: string | Array<number>) => {
+    if (Array.isArray(textOrEmbedding)) {
+        return JSON.stringify(textOrEmbedding);
+    }
+    const text = textOrEmbedding;
+    if (/^\d+$/.test(text)) {
+        const result = await knex('responses').select('text', 'embedding').where({ id: text });
+        const embedding = result[0]?.embedding;
+        if (!embedding) throw new Error('Response not found');
+        console.log(`Response ${text}: ${result[0]?.text}`);
+        return embedding;
+    } else {
+        return await getEmbedding(text);
+    }
+};
+
+export const matchThemesWithSentiment = async (textOrEmbedding: string | Array<number>) => {
+  if (!textOrEmbedding) throw new Error('Must provide input text');
+    const embedding = await findEmbedding(textOrEmbedding);
+    const half = JSON.stringify(new Array(3072).fill(0.5));
     const results = await knex.with('distances',
         knex.select({
             category: 'categories.name',
             sentiment: 'sentiments.name',
-            distance: knex.raw('(categories.embedding + sentiments.embedding) <=> ?', [embedding])
+            distance: knex.raw('(categories.embedding + sentiments.embedding) <=> ?::vector', [embedding])
         })
         .from('categories')
         .crossJoin(knex.raw('sentiments'))
